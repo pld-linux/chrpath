@@ -1,9 +1,8 @@
 Summary:	chrpath - change the rpath or runpath in binaries
 Summary(pl):	chrpath - narzêdzie do zmiany rpath lub runpath w binariach
 Name:		chrpath
-Version:	0.9
+Version:	0.10
 Release:	1
-Patch0:		%{name}-SEGV.patch
 License:	GPL
 Group:		Applications/Editors
 Source0:	ftp://ftp.hungry.com/pub/hungry/chrpath/%{name}-%{version}.tar.gz
@@ -23,7 +22,6 @@ w którym linker powinien szukaæ bibliotek wymaganych przez program.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 rm -f missing

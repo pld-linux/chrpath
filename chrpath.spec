@@ -11,6 +11,8 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define         no_install_post_chrpath         1
+
 %description
 chrpath changes, lists or removes the rpath or runpath setting in a
 binary. The rpath, or runpath if it is present, is where the runtime

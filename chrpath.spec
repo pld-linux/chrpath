@@ -1,13 +1,13 @@
 Summary:	chrpath - change the rpath or runpath in binaries
 Summary(pl):	chrpath - narzêdzie do zmiany rpath lub runpath w binariach
 Name:		chrpath
-Version:	0.10
-Release:	4
+Version:	0.12
+Release:	1
 License:	GPL
 Group:		Applications/Editors
+#Source0ActiveFtp
 Source0:	ftp://ftp.hungry.com/pub/hungry/chrpath/%{name}-%{version}.tar.gz
-# Source0-md5: a8adacc92f1535913d5c59c6b8c5197c
-Patch0:		%{name}-elf64.patch
+# Source0-md5:	ff9dededc5ce7e169b36c279e94891fd
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -26,10 +26,8 @@ w którym linker powinien szukaæ bibliotek wymaganych przez program.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
-rm -f missing
 %{__aclocal}
 %{__autoheader}
 %{__autoconf}

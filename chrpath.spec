@@ -2,7 +2,7 @@ Summary:	chrpath - change the rpath or runpath in binaries
 Summary(pl):	chrpath - narzêdzie do zmiany rpath lub runpath w binariach
 Name:		chrpath
 Version:	0.10
-Release:	3
+Release:	4
 License:	GPL
 Group:		Applications/Editors
 Source0:	ftp://ftp.hungry.com/pub/hungry/chrpath/%{name}-%{version}.tar.gz

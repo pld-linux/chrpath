@@ -6,6 +6,7 @@ Release:	1
 License:	GPL
 Group:		Applications/Editors
 Source0:	ftp://ftp.hungry.com/pub/hungry/chrpath/%{name}-%{version}.tar.gz
+# Source0-md5: a8adacc92f1535913d5c59c6b8c5197c
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)

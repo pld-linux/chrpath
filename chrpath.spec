@@ -1,3 +1,4 @@
+# TODO: biarch support (work on ELF32 binaries too in 64-bit version)
 Summary:	chrpath - change the rpath or runpath in binaries
 Summary(pl):	chrpath - narzêdzie do zmiany rpath lub runpath w binariach
 Name:		chrpath

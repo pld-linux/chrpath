@@ -28,7 +28,9 @@ w którym linker powinien szukaæ bibliotek wymaganych przez program.
 
 %prep
 %setup -q
+%ifarch %{x8664} ppc64 s390x sparc64
 %patch0 -p1
+%endif
 
 %build
 %{__libtoolize}
@@ -53,5 +55,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/libchrpath*.so.*.*.*
+%ifarch %{x8664} ppc64 s390x sparc64
+%attr(755,root,root) %{_libdir}/libchrpath*.so
+%endif
 %{_mandir}/man1/*

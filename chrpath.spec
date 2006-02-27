@@ -1,16 +1,17 @@
-# TODO: biarch support (work on ELF32 binaries too in 64-bit version)
 Summary:	chrpath - change the rpath or runpath in binaries
 Summary(pl):	chrpath - narzêdzie do zmiany rpath lub runpath w binariach
 Name:		chrpath
 Version:	0.13
-Release:	1
+Release:	1.1
 License:	GPL
 Group:		Applications/Editors
 #Source0ActiveFtp
 Source0:	ftp://ftp.hungry.com/pub/hungry/chrpath/%{name}-%{version}.tar.gz
 # Source0-md5:	b73072a8fbba277558c50364b65bb407
+Patch0:		%{name}-multilib.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	libtool
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		no_install_post_chrpath	1
@@ -27,8 +28,10 @@ w którym linker powinien szukaæ bibliotek wymaganych przez program.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
+%{__libtoolize}
 %{__aclocal}
 %{__autoheader}
 %{__autoconf}
@@ -50,4 +53,5 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_libdir}/libchrpath*.so.*.*.*
 %{_mandir}/man1/*

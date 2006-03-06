@@ -1,0 +1,137 @@
+--- chrpath-0.10/chrpath.c.elf64	2002-11-23 22:14:19.000000000 +0100
++++ chrpath-0.10/chrpath.c	2003-09-04 16:00:00.000000000 +0200
+@@ -62,11 +62,11 @@ int
+ chrpath(const char *filename, const char *newpath, int convert)
+ {
+   int fd;
+-  Elf32_Ehdr ehdr;
++  Elf_Ehdr ehdr;
+   int i;
+-  Elf32_Phdr phdr;
+-  Elf32_Shdr shdr;
+-  Elf32_Dyn *dyns;
++  Elf_Phdr phdr;
++  Elf_Shdr shdr;
++  Elf_Dyn *dyns;
+   int rpathoff;
+   char * strtab;
+   char * rpath;
+--- chrpath-0.10/elf.c.elf64	2002-09-17 09:44:48.000000000 +0200
++++ chrpath-0.10/elf.c	2003-09-04 16:00:00.000000000 +0200
+@@ -16,14 +16,8 @@
+ #include <fcntl.h>
+ #include "protos.h"
+ 
+-#ifdef WORDS_BIGENDIAN
+-#define ELFDATA2 ELFDATA2MSB
+-#else
+-#define ELFDATA2 ELFDATA2LSB
+-#endif
+-
+ int
+-elf_open(const char *filename, int flags, Elf32_Ehdr *ehdr)
++elf_open(const char *filename, int flags, Elf_Ehdr *ehdr)
+ {
+    int fd;
+ 
+@@ -42,26 +36,26 @@ elf_open(const char *filename, int flags
+    }
+ 
+    if (0 != memcmp(ehdr->e_ident, ELFMAG, SELFMAG) ||
+-       ehdr->e_ident[EI_CLASS] != ELFCLASS32 ||
++       ehdr->e_ident[EI_CLASS] != ELFCLASS ||
+        ehdr->e_ident[EI_DATA] != ELFDATA2 ||
+        ehdr->e_ident[EI_VERSION] != EV_CURRENT)
+    {
+      fprintf(stderr,
+ #ifdef WORDS_BIGENDIAN
+-             "`%s' probably isn't a 32-bit MSB-first ELF file.\n",
++             "`%s' probably isn't a %d-bit MSB-first ELF file.\n",
+ #else /* not WORD_BIGENDIAN */
+-             "`%s' probably isn't a 32-bit LSB-first ELF file.\n",
++             "`%s' probably isn't a %d-bit LSB-first ELF file.\n",
+ #endif /* not WORD_BIGENDIAN */
+-             filename);
++             filename, __WORDSIZE);
+      close(fd);
+      errno = ENOEXEC; /* Hm, is this the best errno code to use? */
+      return -1;
+    }
+ 
+-   if (ehdr->e_phentsize != sizeof(Elf32_Phdr))
++   if (ehdr->e_phentsize != sizeof(Elf_Phdr))
+    {
+      fprintf(stderr, "section size was read as %d, not %d!\n",
+-            ehdr->e_phentsize, sizeof(Elf32_Phdr));
++            ehdr->e_phentsize, sizeof(Elf_Phdr));
+      close(fd);
+      return -1;
+    }
+@@ -69,7 +63,7 @@ elf_open(const char *filename, int flags
+ }
+ 
+ int
+-elf_find_dynamic_section(int fd, Elf32_Ehdr *ehdr, Elf32_Phdr *phdr)
++elf_find_dynamic_section(int fd, Elf_Ehdr *ehdr, Elf_Phdr *phdr)
+ {
+   int i;
+   if (lseek(fd, ehdr->e_phoff, SEEK_SET) == -1)
+--- chrpath-0.10/protos.h.elf64	2002-09-17 09:29:29.000000000 +0200
++++ chrpath-0.10/protos.h	2003-09-04 16:00:00.000000000 +0200
+@@ -2,14 +2,38 @@
+ #define PROTOS_H
+ 
+ #include <elf.h>
++#include <bits/wordsize.h>
++
++#ifdef WORDS_BIGENDIAN
++#define ELFDATA2 ELFDATA2MSB
++#else
++#define ELFDATA2 ELFDATA2LSB
++#endif
++#if __WORDSIZE == 64
++#define Elf_Ehdr Elf64_Ehdr
++#define ELFCLASS ELFCLASS64
++#define Elf_Phdr Elf64_Phdr
++#define Elf_Shdr Elf64_Shdr
++#define Elf_Dyn  Elf64_Dyn
++#elif __WORDSIZE == 32
++#define Elf_Ehdr Elf32_Ehdr
++#define ELFCLASS ELFCLASS32
++#define Elf_Phdr Elf32_Phdr
++#define Elf_Shdr Elf32_Shdr
++#define Elf_Dyn  Elf32_Dyn
++#else
++#error "Unknown __WORDSIZE!"
++#endif
++
+ 
+ int killrpath(const char *filename);
+ int chrpath(const char *filename, const char *newpath, int convert);
+ 
+-int elf_open(const char *filename, int flags, Elf32_Ehdr *ehdr);
++int elf_open(const char *filename, int flags, Elf_Ehdr *ehdr);
+ void elf_close(int fd);
+-int elf_find_dynamic_section(int fd, Elf32_Ehdr *ehdr, Elf32_Phdr *phdr);
++int elf_find_dynamic_section(int fd, Elf_Ehdr *ehdr, Elf_Phdr *phdr);
+ const char *elf_tagname(int tag);
+ int elf_dynpath_tag(int tag);
+ 
++
+ #endif /* PROTOS_H */
+--- chrpath-0.10/killrpath.c.elf64	2002-09-25 10:01:20.000000000 +0200
++++ chrpath-0.10/killrpath.c	2003-09-04 16:00:00.000000000 +0200
+@@ -32,10 +32,10 @@ int
+ killrpath(const char *filename)
+ {
+    int fd;
+-   Elf32_Ehdr ehdr;
++   Elf_Ehdr ehdr;
+    int i;
+-   Elf32_Phdr phdr;
+-   Elf32_Dyn *dyns;
++   Elf_Phdr phdr;
++   Elf_Dyn *dyns;
+    int dynpos;
+ 
+    fd = elf_open(filename, O_RDWR, &ehdr);

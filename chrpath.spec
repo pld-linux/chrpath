@@ -40,7 +40,8 @@ w którym linker powinien szukaæ bibliotek wymaganych przez program.
 %{__autoheader}
 %{__autoconf}
 %{__automake}
-%configure
+%configure \
+	--disable-static
 %{__make}
 
 %install

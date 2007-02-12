@@ -1,5 +1,5 @@
 Summary:	chrpath - change the rpath or runpath in binaries
-Summary(pl):	chrpath - narzêdzie do zmiany rpath lub runpath w binariach
+Summary(pl.UTF-8):   chrpath - narzÄ™dzie do zmiany rpath lub runpath w binariach
 Name:		chrpath
 Version:	0.13
 Release:	2
@@ -22,10 +22,10 @@ chrpath changes, lists or removes the rpath or runpath setting in a
 binary. The rpath, or runpath if it is present, is where the runtime
 linker should look for the libraries needed for a program.
 
-%description -l pl
+%description -l pl.UTF-8
 chrpath zmienia, pokazuje lub usuwa ustawienia rpath lub runpath w
-binariach. rpath lub runpath, je¶li jest ustawione, pokazuje miejsce,
-w którym linker powinien szukaæ bibliotek wymaganych przez program.
+binariach. rpath lub runpath, jeÅ›li jest ustawione, pokazuje miejsce,
+w ktÃ³rym linker powinien szukaÄ‡ bibliotek wymaganych przez program.
 
 %prep
 %setup -q

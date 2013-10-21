@@ -1,13 +1,14 @@
 Summary:	chrpath - change the rpath or runpath in binaries
 Summary(pl.UTF-8):	chrpath - narzędzie do zmiany rpath lub runpath w binariach
 Name:		chrpath
-Version:	0.13
-Release:	3
+Version:	0.14
+Release:	1
 License:	GPL
 Group:		Applications/Editors
 #Source0ActiveFtp
-Source0:	ftp://ftp.hungry.com/pub/hungry/chrpath/%{name}-%{version}.tar.gz
-# Source0-md5:	b73072a8fbba277558c50364b65bb407
+Source0:	https://alioth.debian.org/frs/download.php/file/3648/%{name}-%{version}.tar.gz
+# Source0-md5:	ea6b212b23393bf58b0ef9bcf6491b86
+URL:		https://alioth.debian.org/projects/chrpath/
 Patch0:		%{name}-keepgoing.patch
 Patch1:		%{name}-multilib.patch
 BuildRequires:	autoconf

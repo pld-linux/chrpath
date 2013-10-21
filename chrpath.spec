@@ -8,10 +8,10 @@ Group:		Applications/Editors
 #Source0ActiveFtp
 Source0:	https://alioth.debian.org/frs/download.php/file/3648/%{name}-%{version}.tar.gz
 # Source0-md5:	ea6b212b23393bf58b0ef9bcf6491b86
-URL:		https://alioth.debian.org/projects/chrpath/
 Patch0:		%{name}-keepgoing.patch
 Patch1:		%{name}-multilib.patch
-BuildRequires:	autoconf
+URL:		https://alioth.debian.org/projects/chrpath/
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	libtool
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -58,8 +58,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/chrpath
 %ifarch %{x8664} ppc64 s390x sparc64
 %attr(755,root,root) %{_libdir}/libchrpath*.so
 %endif
-%{_mandir}/man1/*
+%{_mandir}/man1/chrpath.1*

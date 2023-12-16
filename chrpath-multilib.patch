@@ -1,24 +1,7 @@
---- a/configure.ac	2004-09-19 10:28:33.000000000 +0200
-+++ b/configure.ac	2006-02-27 16:12:00.282066250 +0100
-@@ -16,6 +16,7 @@
- dnl Checks for programs.
- AC_PROG_CC
- AC_PROG_INSTALL
-+AC_PROG_LIBTOOL
- 
- dnl Checks for libraries.
- 
-@@ -26,7 +27,6 @@
- dnl Checks for typedefs, structures, and compiler characteristics.
- AC_C_CONST
- AC_C_BIGENDIAN
--AC_CHECK_SIZEOF(void *)
- 
- dnl Checks for library functions.
- AC_CHECK_FUNCS(getopt_long)
---- a/Makefile.am	2004-09-19 10:29:28.000000000 +0200
-+++ b/Makefile.am	2006-02-27 16:57:31.166290750 +0100
-@@ -12,12 +12,19 @@
+diff -urNp -x '*.orig' chrpath-0.16.org/Makefile.am chrpath-0.16/Makefile.am
+--- chrpath-0.16.org/Makefile.am	2014-01-12 08:52:21.000000000 +0100
++++ chrpath-0.16/Makefile.am	2023-12-16 18:36:06.850493419 +0100
+@@ -12,12 +12,19 @@ debs:
  	fakeroot debian/rules binary
  
  chrpath_SOURCES = \
@@ -40,9 +23,29 @@
 +
  EXTRA_DIST = $(man_MANS)
  
- CLEANFILES = *.bb *.bbg *.da *.gcov testsuite/*.bb testsuite/*.bbg
---- a/main.c	2004-09-19 10:33:37.000000000 +0200
-+++ b/main.c	2006-02-27 17:23:39.400267750 +0100
+ config-updates:
+diff -urNp -x '*.orig' chrpath-0.16.org/configure.ac chrpath-0.16/configure.ac
+--- chrpath-0.16.org/configure.ac	2014-01-12 09:01:52.000000000 +0100
++++ chrpath-0.16/configure.ac	2023-12-16 18:36:06.850493419 +0100
+@@ -16,6 +16,7 @@ CHRPATH_LDRPATH_OPTION
+ dnl Checks for programs.
+ AC_PROG_CC
+ AC_PROG_INSTALL
++AC_PROG_LIBTOOL
+ 
+ dnl Checks for libraries.
+ 
+@@ -26,7 +27,6 @@ AC_CHECK_HEADERS([getopt.h elf.h fcntl.h
+ dnl Checks for typedefs, structures, and compiler characteristics.
+ AC_C_CONST
+ AC_C_BIGENDIAN
+-AC_CHECK_SIZEOF(void *)
+ 
+ dnl Checks for library functions.
+ AC_CHECK_FUNCS(getopt_long)
+diff -urNp -x '*.orig' chrpath-0.16.org/main.c chrpath-0.16/main.c
+--- chrpath-0.16.org/main.c	2014-01-14 10:15:59.000000000 +0100
++++ chrpath-0.16/main.c	2023-12-16 18:36:06.850493419 +0100
 @@ -12,13 +12,19 @@
  #  include "config.h"
  #endif
@@ -64,7 +67,7 @@
  
  #ifdef HAVE_GETOPT_LONG
  #  define GETOPT_LONG getopt_long
-@@ -61,6 +67,30 @@
+@@ -63,6 +69,30 @@ usage(char *progname)
    printf("\n");
  }
  
@@ -95,7 +98,7 @@
  int
  main(int argc, char * const argv[])
  {
-@@ -73,6 +103,9 @@
+@@ -75,6 +105,9 @@ main(int argc, char * const argv[])
  #ifdef HAVE_GETOPT_LONG
    int option_index = 0;
  #endif /* HAVE_GETOPT_LONG */
@@ -105,7 +108,7 @@
  
    if (argc < 2)
      {
-@@ -116,14 +149,31 @@
+@@ -119,14 +152,31 @@ main(int argc, char * const argv[])
        }
    } while (-1 != opt);
  

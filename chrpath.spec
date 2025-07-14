@@ -30,7 +30,7 @@ w którym linker powinien szukać bibliotek wymaganych przez program.
 %prep
 %setup -q
 %ifarch %{x8664} ppc64 s390x sparc64
-%patch1 -p1
+%patch -P1 -p1
 %endif
 
 %build
